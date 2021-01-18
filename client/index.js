@@ -106,7 +106,20 @@ console.log(newListe);
 // 1. Determine the average basket of the marketplace
 // 2. Log the average
 
+function average(liste){
+  let sum=0;
+  let cpt=0;
+  liste.forEach(function(product){
+    sum=sum+product.price;
+    cpt=cpt+1;
 
+  })
+
+  return sum/cpt;
+}
+
+const averagePrice=average(marketplace);
+console.log(averagePrice);
 
 
 
