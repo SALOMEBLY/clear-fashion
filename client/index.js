@@ -66,18 +66,20 @@ console.log(nbProduct);
 let listBrands=[];
 marketplace.forEach(function(product){
   if(listBrands.includes(product.brand)==false){
-    listBrands.push(product.brand)
+    listBrands.push(product.brand);
   }
 });
 
 console.log(listBrands);
 console.log("The number of brands of " + listBrands.length);
 
+//ou const brandlist=marketplace.map(function(product){return product.brand})
+//console.log(brandlist)
+
 // 🎯 TODO: Sort by price
 // 1. Create a function to sort the marketplace products by price
 // 2. Create a variable and assign it the list of products by price from lowest to highest
 // 3. Log the variable
-
 
 // 🎯 TODO: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
@@ -88,6 +90,16 @@ console.log("The number of brands of " + listBrands.length);
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
 // 2. Log the list
+
+const newListe=[];
+
+marketplace.forEach(function(product){
+  if (product.price>=50 && product.price<=100){
+    newListe.push(product);
+  }
+});
+
+console.log(newListe);
 
 
 // 🎯 TODO: Average Basket
