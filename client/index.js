@@ -54,6 +54,9 @@ console.log(marketplace);
 // 1. Create a variable and assign it the number of products
 // 2. Log the variable
 
+const nbProduct=marketplace.length;
+console.log(nbProduct);
+
 
 // 🎯 TODO: Brands name
 // 1. Create a variable and assign it the list of brands name only
