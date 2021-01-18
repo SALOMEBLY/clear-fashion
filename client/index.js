@@ -95,11 +95,28 @@ const sortedPrice=marketplace;
 sortedPrice.sort(sortMarketByPrice);
 
 console.log("Sorted by price", sortedPrice);
+console.log(sortedPrice[0]);
+
 // 🎯 TODO: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
 
+function sortMarketByDate(a,b){
+  if (a.date<b.date){
+    return -1;
+  }
+  if (a.date>b.date){
+    return 1;
+  }
+  return 0;
+}
+
+const sortedDate=marketplace;
+sortedDate.sort(sortMarketByDate);
+
+console.log("Sorted by date", sortedDate);
+console.log(sortedDate[0]);
 
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
@@ -156,6 +173,9 @@ console.log(averagePrice);
 //   ....
 //   'brand-name-n': [{...}, {...}, ..., {...}],
 // };
+
+const brands ={};
+
 //
 // 2. Log the variable
 // 3. Log the number of products by brands
@@ -266,11 +286,28 @@ const COTELE_PARIS = [
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
 // // A reasonable price if all the products are less than 100€
 
+var reasonnable= true; 
+
+COTELE_PARIS.forEach(function(product){
+  if (product.price>100){
+    reasonnable=false;
+  }
+})
+
+console.log(reasonnable);
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
+var linkProduct='';
 
+COTELE_PARIS.forEach(function(product){
+  if (product.uuid=='b56c6d88-749a-5b4c-b571-e5b5c6483131'){
+    linkProduct=product.link;
+  }
+})
+
+console.log(linkProduct);
 
 // 🎯 TODO: Delete a specific product
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
