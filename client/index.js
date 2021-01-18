@@ -34,7 +34,8 @@ console.log(MY_FAVORITE_BRANDS[0]);
 // I can find on these e-shops
 // 2. Log the variable
 
-
+const cheapestShirt = 'https://www.loom.fr/products/le-t-shirt'
+console.log(cheapestShirt);
 
 
 
@@ -46,6 +47,8 @@ console.log(MY_FAVORITE_BRANDS[0]);
  * The variable is loaded by the file data.js
  * 👕
  */
+
+console.log(marketplace);
 
 // 🎯 TODO: Number of products
 // 1. Create a variable and assign it the number of products
