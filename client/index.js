@@ -176,6 +176,7 @@ console.log(averagePrice);
 
 const brands ={};
 
+
 //
 // 2. Log the variable
 // 3. Log the number of products by brands
@@ -281,6 +282,15 @@ const COTELE_PARIS = [
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
 
+var newProducts= true;
+
+COTELE_PARIS.forEach(function(product){
+  if(product.released<'2020-12-28'){
+    newProducts=false;
+  }
+})
+
+console.log(newProducts);
 
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
@@ -313,6 +323,14 @@ console.log(linkProduct);
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the new list of product
 
+COTELE_PARIS.forEach(function(product){
+  if (product.uuid='b56c6d88-749a-5b4c-b571-e5b5c6483131'){
+    delete COTELE_PARIS[product];
+  }
+})
+
+console.log(COTELE_PARIS);
+
 // 🎯 TODO: Save the favorite product
 let blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
@@ -333,6 +351,9 @@ blueJacket = {
   'price': 110,
   'uuid': 'b4b05398-fee0-4b31-90fe-a794d2ccfaaa'
 };
+
+console.log(blueJacket);
+console.log(jacket);
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
 
