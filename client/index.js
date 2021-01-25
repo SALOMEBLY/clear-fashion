@@ -220,20 +220,34 @@ function sortMarketByPriceDesc(a,b){
   return 0;
 }
 
+const sortedPriceDic=brands;
 
-for (const[key,value] of brands){
+for (const[key,value] of sortedPriceDic){
   value.sort(sortMarketByPriceDesc);
 }
 
-const sortedPriceDic=brands;
 console.log(sortedPriceDic);
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
 
+function sortMarketByDateDesc(a,b){
+  if (a.date>b.date){
+    return -1;
+  }
+  if (a.date<b.date){
+    return 1;
+  }
+  return 0;
+}
 
+const sortedDateDic=brands;
+for (const[key,value] of brands){
+  value.sort(sortMarketByDateDesc);
+}
 
+console.log(sortedDateDic);
 
 
 /**
