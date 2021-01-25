@@ -174,17 +174,41 @@ console.log(averagePrice);
 //   'brand-name-n': [{...}, {...}, ..., {...}],
 // };
 
-const brands ={};
+const brands =new Map();  //dictionnary
+//we use the liste listBrands created before 
+listBrands.forEach(function(element){
+  let list=[]
+  marketplace.forEach(function(products){
+    if (products.brand==element){
+      list.push(products);
+    }
+  })
+  brands.set(element,list);
+})
 
 
 //
 // 2. Log the variable
+
+console.log(brands);
+
 // 3. Log the number of products by brands
+
+for (const[key,value] of brands){
+  let sum=0;
+  value.forEach(function(elements){
+    sum=sum+1;
+  })
+  console.log("The brand",key,"has",sum,"products");
+}
+
 
 
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
+
+
 
 
 // 🎯 TODO: Sort by date for each brand
@@ -355,9 +379,12 @@ blueJacket = {
 console.log(blueJacket);
 console.log(jacket);
 
+//blueJacket: {link: "https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi", price: 110, uuid: "b4b05398-fee0-4b31-90fe-a794d2ccfaaa"}
+//jacket: {link: "https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi", price: 110, uuid: "b4b05398-fee0-4b31-90fe-a794d2ccfaaa", favorite: true}
+
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
 
-
+//the property is already changed only for Jacket 
 
 
 
