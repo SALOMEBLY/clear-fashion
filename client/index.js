@@ -208,8 +208,25 @@ for (const[key,value] of brands){
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
 
+//we can use the function created to sort a list thanks to the prices 
+
+function sortMarketByPriceDesc(a,b){
+  if (a.price>b.price){
+    return -1;
+  }
+  if (a.price<b.price){
+    return 1;
+  }
+  return 0;
+}
 
 
+for (const[key,value] of brands){
+  value.sort(sortMarketByPriceDesc);
+}
+
+const sortedPriceDic=brands;
+console.log(sortedPriceDic);
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
