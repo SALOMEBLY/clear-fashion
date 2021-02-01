@@ -263,3 +263,38 @@ function sortedReasonablePrice(products){
   renderProducts(final);
 }
 
+
+//feature 5: sort by price 
+function sortMarketByPrice(a,b){
+  if (a.price<b.price){
+    return -1;
+  }
+  if (a.price>b.price){
+    return 1;
+  }
+  return 0;
+}
+
+function renderSortByPrice(products){
+  const final=products;
+  final.sort(sortMarketByPrice);
+  renderProducts(final);
+}
+
+//feature 6: sort by date 
+
+function sortMarketByDate(a,b){
+  if (a.date<b.date){
+    return -1;
+  }
+  if (a.date>b.date){
+    return 1;
+  }
+  return 0;
+}
+
+function renderSortByDate(products){
+  const sortedDate=products;
+  sortedDate.sort(sortMarketByDate);
+  renderProducts(sortedDate);
+}
