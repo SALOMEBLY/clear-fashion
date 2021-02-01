@@ -213,18 +213,53 @@ function listDate(product){
   return date;
 }
 
-function sortMarketByDate(a,b){ //a and b represent two products 
-  if (a["date"]<b["date"]){
+function sortMarketByDateLess2Weeks(a,b,date){ //a and b represent two products 
+  if (a["date"]<date && b["date"]<date){ //les than 2 weeks 
+    if (a["date"]<b["date"]){
     return -1;
   }
   if (a["date"]>b["date"]){
     return 1;
   }
   return 0;
+  }
+  
 }
 
 function sortReleased(products,date){
   const recentReleased=products;
-  recentReleased.sort(sortMarketByDate);
+  recentReleased.sort(sortMarketByDateLess2Weeks);
   renderProducts(recentReleased);
 }
+
+//feature 4: filter by reasonable price 
+
+function listPrice(products){
+  let prices=[];
+  for (var i=0;i<products.length;i++){
+    if (price.includes(products[i]["price"])==false){
+      price.push(products[i]["price"]);
+    }
+  }
+  return prices;
+}
+
+function sortedBYreasonablePrice(a,b){
+  if (a["price"]<50 && b["price"]<50){
+    if (a.price<b.price){
+    return -1;
+  }
+  if (a.price>b.price){
+    return 1;
+  }
+  return 0;
+  }
+  
+}
+
+function sortedReasonablePrice(products){
+  const final=products;
+  final.sort(sortedReasonablePrice);
+  renderProducts(final);
+}
+
