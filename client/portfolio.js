@@ -4,6 +4,7 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
+let currentFilter = [];
 
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select'); //pour modifier le nombre de produits affichés
@@ -124,7 +125,27 @@ document.addEventListener('DOMContentLoaded', () =>
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//feature 1
+//feature 0: show more products
+selectShow.addEventListener('change', event => { //according to the selector show choosen
+ fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
+ .then(setCurrentProducts)
+ .then(() => render(currentProducts, currentPagination));
+});
+selectPage.addEventListener('change', event => { //according to the selector show choosen
+ fetchProducts(parseInt(event.target.value), currentProducts.length)
+ .then(setCurrentProducts)
+ .then(() => render(currentProducts, currentPagination));
+});
+selectBrand.addEventListener('change',event=>{
+ sortbrand(currentProducts,event.target.value)
+});
+document.addEventListener('DOMContentLoaded', () =>
+ fetchProducts()
+ .then(setCurrentProducts)
+ .then(() => render(currentProducts, currentPagination))
+);
+
+//feature 1: browse pages 
 function renderPagination (pagination) { //ajoute les pages de 1 à 12 dans le selector go to page
  const nbPage=pagination.pageCount; //nombre de page donné par la variable pagination
  const currentPage=pagination.currentPage;
@@ -138,7 +159,7 @@ function renderPagination (pagination) { //ajoute les pages de 1 à 12 dans le s
 }
 
 
-//feature 2
+//feature 2: Filter by brands 
 function ListBrands(products) {
  let brandsname= [];
  for (var i=0;i<products.length;i++){
@@ -179,28 +200,31 @@ function sortbrand(products,brand){
  }
  renderProducts(sortedproduct);
 }
-/**
- * Declaration of all Listeners
- */
-/**
- * Select the number of products to display
- * @type {[type]}
- */
-selectShow.addEventListener('change', event => { //according to the selector show choosen
- fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
- .then(setCurrentProducts)
- .then(() => render(currentProducts, currentPagination));
-});
-selectPage.addEventListener('change', event => { //according to the selector show choosen
- fetchProducts(parseInt(event.target.value), currentProducts.length)
- .then(setCurrentProducts)
- .then(() => render(currentProducts, currentPagination));
-});
-selectBrand.addEventListener('change',event=>{
- sortbrand(currentProducts,event.target.value)
-});
-document.addEventListener('DOMContentLoaded', () =>
- fetchProducts()
- .then(setCurrentProducts)
- .then(() => render(currentProducts, currentPagination))
-);
+
+
+//feature 3: Filter by recently released 
+
+function listDate(product){
+  let date=[];
+  for (var i=0;i<products.length;i++){
+ if(date.includes(products[i]["date"])==false){
+  date.push(products[i]["date"]);
+  }}
+  return date;
+}
+
+function sortMarketByDate(a,b){ //a and b represent two products 
+  if (a["date"]<b["date"]){
+    return -1;
+  }
+  if (a["date"]>b["date"]){
+    return 1;
+  }
+  return 0;
+}
+
+function sortReleased(products,date){
+  const recentReleased=products;
+  recentReleased.sort(sortMarketByDate);
+  renderProducts(recentReleased);
+}
