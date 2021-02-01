@@ -6,8 +6,8 @@ let currentProducts = [];
 let currentPagination = {};
 
 // inititiqte selectors
-const selectShow = document.querySelector('#show-select');
-const selectPage = document.querySelector('#page-select');
+const selectShow = document.querySelector('#show-select'); //pour modifier le nombre de produits affichés
+const selectPage = document.querySelector('#page-select'); //pour modifier la page 
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -120,4 +120,87 @@ document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination))
+);
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//feature 1
+function renderPagination (pagination) { //ajoute les pages de 1 à 12 dans le selector go to page
+ const nbPage=pagination.pageCount; //nombre de page donné par la variable pagination
+ const currentPage=pagination.currentPage;
+ let options='';
+ for(var index=0; index<nbPage; index ++) {
+  options += '<option value="'+ (index+1) + '">' + (index+1) + '</option>';
+ }
+
+ selectPage.innerHTML=options; //ajout a l'interieur du selectPage du html
+ selectPage.selectedIndex=currentPage-1;
+}
+
+
+//feature 2
+function ListBrands(products) {
+ let brandsname= [];
+ for (var i=0;i<products.length;i++){
+ if(brandsname.includes(products[i]["brand"])==false){
+ brandsname.push(products[i]["brand"])
+ }
+ }
+ return brandsname;
+}
+function renderBrands(brand) {
+ let options='';
+ for (var i=0;i<brand.length;i++){
+ options+='<option value="'+ (brand[i]) + '">' + (brand[i]) + '</option>'
+ }
+ selectBrand.innerHTML=options;
+}
+/**
+ * Render page selector
+ * @param {Object} pagination
+ */
+const renderIndicators = pagination => { //nombre de produit affiché en fonction du nre de produit à afficher
+ const {count} = pagination;
+ spanNbProducts.innerHTML = count;
+};
+const render = (products, pagination) => {
+ renderProducts(products);
+ renderPagination(pagination);
+ renderIndicators(pagination);
+ const brand=ListBrands(currentProducts);
+ renderBrands(brand);
+};
+function sortbrand(products,brand){
+ const sortedproduct=[];
+ for(var i=0; i<products.length;i++){
+ if(products[i]["brand"]==brand){
+ sortedproduct.push(products[i]);
+ }
+ }
+ renderProducts(sortedproduct);
+}
+/**
+ * Declaration of all Listeners
+ */
+/**
+ * Select the number of products to display
+ * @type {[type]}
+ */
+selectShow.addEventListener('change', event => { //according to the selector show choosen
+ fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
+ .then(setCurrentProducts)
+ .then(() => render(currentProducts, currentPagination));
+});
+selectPage.addEventListener('change', event => { //according to the selector show choosen
+ fetchProducts(parseInt(event.target.value), currentProducts.length)
+ .then(setCurrentProducts)
+ .then(() => render(currentProducts, currentPagination));
+});
+selectBrand.addEventListener('change',event=>{
+ sortbrand(currentProducts,event.target.value)
+});
+document.addEventListener('DOMContentLoaded', () =>
+ fetchProducts()
+ .then(setCurrentProducts)
+ .then(() => render(currentProducts, currentPagination))
 );
