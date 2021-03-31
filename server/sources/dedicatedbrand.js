@@ -32,15 +32,17 @@ const parse = data => {
  * @param  {[type]}  url
  * @return {Array|null}
  */
-module.exports.scrape = async url => {
-  const response = await axios(url);
-  const {data, status} = response;
 
-  if (status >= 200 && status < 300) {
-    return parse(data);
-  }
+ 
+  module.exports.scrape = async url => {
+    
+    const response = await axios(url);
+    const {data, status} = response;
 
-  console.error(status);
+    if (status >= 200 && status < 300) {
+      return parse(data);
+    }
+    console.error(status);
 
-  return null;
-};
+    return null;
+    };
