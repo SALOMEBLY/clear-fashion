@@ -30,6 +30,7 @@ app.get('/products/search', async (req, res) => {
   for(i=0;i<limit;i++){
     prod.push(result[i])
   }
+  
 prod.sort(function(a,b){
   {return a.price - b.price}
 });
