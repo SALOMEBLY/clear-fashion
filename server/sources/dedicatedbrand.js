@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const {'v5': uuidv5} = require('uuid');
 
 /**
  * Parse webpage e-shop
@@ -11,6 +12,10 @@ const parse = data => {
 
   return $('.productList-container .productList')
     .map((i, element) => {
+      const link = `https://www.dedicatedbrand.com/${$(element)
+        .find('.productList-link')
+        .attr('href')}`;
+      const brand = "Dedicated"
       const name = $(element)
         .find('.productList-title')
         .text()
@@ -19,10 +24,13 @@ const parse = data => {
       const price = parseInt(
         $(element)
           .find('.productList-price')
-          .text()
-      );
+          .text());
+      const photo = $(element)
+          .find('.productList-image img')
+          .attr('src');
+      const id = uuidv5(link, uuidv5.URL);
 
-      return {name, price};
+      return {id, brand, name, price, photo, link};
     })
     .get();
 };
@@ -32,17 +40,60 @@ const parse = data => {
  * @param  {[type]}  url
  * @return {Array|null}
  */
+module.exports.scrape_products = async url => {
+  const response = await axios(url);
+  const {data, status} = response;
 
- 
-  module.exports.scrape = async url => {
+  if (status >= 200 && status < 300) {
+    return parse(data);
+  }
+
+  console.error(status);
+
+  return null;
+};
+
+//Scrape all links on the welcome page of the website
+module.exports.scrape_links = async url => {
+  const response = await axios(url);
+  const {data, status} = response;
+
+  if (status >= 200 && status < 300) {
+    return parse_links(data);
+  }
+
+  console.error(status);
+
+  return null;
+};
+
+
+const parse_links = data => {
+  const $ = cheerio.load(data);
+
+  return $('.mainNavigation-fixedContainer .mainNavigation-link-subMenu-link')
+    .map((i, element) => {
+      const link = $(element)
+        .find('.mainNavigation-link-subMenu-link > a[href]')
+        .attr('href')
+
+      return link;
+    })
+    .get();
+};
+
+  //let links=[];
+
+  // $('li.mainNavigation-link-subMenu-link.mainNavigation-link-subMenu-link--image').each((i,element)=>{
+  //   if(i<14){
+  //     links.push($(element).find('a').attr('href'));
+  //     console.log(links);
+
+  //     //const link=$(element).find('a').attr('href');
+  //     //links.push(link);
+  //   }
     
-    const response = await axios(url);
-    const {data, status} = response;
 
-    if (status >= 200 && status < 300) {
-      return parse(data);
-    }
-    console.error(status);
+    
 
-    return null;
-    };
+  //   });
