@@ -4,7 +4,8 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
-
+let reasonable_checkbox='off';
+let recent_checkbox='off';
 
 
 // inititiqte selectors
@@ -14,8 +15,11 @@ const selectBrand= document.querySelector('#brand-select');
 const selectSort=document.querySelector('#sort-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
- 
-
+const p50=document.querySelector('#p50');
+const p90=document.querySelector('#p90');
+const p95=document.querySelector('#p95');
+const reasonable_price=document.querySelector('#reasonable-price');
+const Favorites=document.querySelector('#favorites');
 
 
 /**

@@ -1,0 +1,22 @@
+body{
+    background-color: darkblue;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 100%;
+}
+h1{
+    font-size: 200%;
+    color:lightblue;
+    text-align: center;
+}
+h2{
+    font-size: 150%;
+    color:black;
+    padding-left: 15px;
+}
+a:link{
+    color:blue;
+    text-decoration: underline;
+}
+span1{
+    font-family: Apple Chancery,cursive;
+}
