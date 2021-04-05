@@ -150,6 +150,12 @@ const renderIndicators = pagination => { //nombre de produit affiché en fonctio
   const {count} = pagination;
 
   spanNbProducts.innerHTML = count;
+  p50.innerHTML=percentile(50)+ " euros";
+  p90.innerHTML=percentile(90)+ " euros";
+  p95.innerHTML=percentile(95)+ " euros";
+  if (reasonable_checkbox==='on'){
+    sortAffordable(products);
+  }
 };
 
 const render = (products, pagination) => {
@@ -159,6 +165,7 @@ const render = (products, pagination) => {
   renderIndicators(pagination);
   const brand=ListBrands(currentProducts);
   renderBrands(brand);
+  checkboxes(products);
 };
 
 function sortbrand(products,brand){
@@ -255,6 +262,21 @@ function is_newly_released(product){
   }
 }
 
+function percentile(p){
+  var prod=currentProducts.sort((a,b)=>compare_price_asc(a,b));
+  var i=Math.floor((p/100)*prod.length);
+  return prod[i].price;
+}
+
+function checkboxes(products){
+  if(reasonable_checkbox==='on'){
+    sortAffordable(products);
+  }
+  else if(recent_checkbox==='on'){
+    sortNewReleased(products);
+  }
+}
+
 
 //Function to sort the products
 function sortByDateAsc(currentProducts){
@@ -332,7 +354,15 @@ selectSort.addEventListener('change',event => {
 	
 });
 
-
+ReasonablePrice.addEventListener('change',()=>{
+  if(reasonable_checkbox=='on'){
+    reasonable_checkbox='off';
+  }else{
+    reasonable_checkbox='on';
+  }
+  render(currentProducts,currentPagination);
+  
+})
 
 document.addEventListener('DOMContentLoaded',()=>
   fetchProducts().then(setCurrentProducts).then(()=>render(currentProducts,currentPagination))
