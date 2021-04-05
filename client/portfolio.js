@@ -18,8 +18,11 @@ const spanNbProducts = document.querySelector('#nbProducts');
 const p50=document.querySelector('#p50');
 const p90=document.querySelector('#p90');
 const p95=document.querySelector('#p95');
-const reasonable_price=document.querySelector('#reasonable-price');
-const Favorites=document.querySelector('#favorites');
+
+const ReasonablePrice=document.querySelector("#reasonable-price");
+//const RecentReleased=document.querySelector('#recently-released');
+const Favoritess=document.querySelector('#favorites'); 
+
 
 
 /**
@@ -41,9 +44,8 @@ const setCurrentProducts = ({result, meta}) => {
 const fetchProducts = async (page = 1, size = 12) => {//recupere les produits 
   try {
     const response = await fetch(
-      `https://clear-fashion-delta.vercel.app/products?page=${page}&size=${size}`
+      `https://clear-fashion-server-six.vercel.app/products?page=${page}&size=${size}`
     );
-    
     const body = await response.json();
 
     if (body.success !== true) {
@@ -69,9 +71,9 @@ const renderProducts = products => { //rend la liste des produits
     .map(product => {
       return `
       <div class="product" id=${product.uuid}>
-        <span>${product.brand}</span>
+        <span1>${product.brand}</span1>
         <a href="${product.link}">${product.name}</a>
-        <span>${product.price}</span>
+        <span1>${product.price}</span1>
       </div>
     `;
     })
@@ -153,9 +155,16 @@ const renderIndicators = pagination => { //nombre de produit affiché en fonctio
   p50.innerHTML=percentile(50)+ " euros";
   p90.innerHTML=percentile(90)+ " euros";
   p95.innerHTML=percentile(95)+ " euros";
-  if (reasonable_checkbox==='on'){
+  if(reasonable_checkbox==='on'){
     sortAffordable(products);
   }
+
+};
+
+function percentile(p){
+  var prod=currentProducts.sort((a,b)=>compare_price_asc(a,b));
+  var i=Math.floor((p/100)*prod.length)
+  return prod[i].price
 };
 
 const render = (products, pagination) => {
@@ -178,16 +187,20 @@ function sortbrand(products,brand){
   renderProducts(sortedproduct);
 }
 
+function checkboxes(products){
+  if(reasonable_checkbox==='on'){
+    sortAffordable(products);
+  }
+  else if(recent_checkbox==='on'){
+    sortNewReleased(products);
+  }
+}
+
 
 // function to select the way we want to sort the products before showing them to thz client 
 function Selection(currentProducts,selectedSorting){
-  if (selectedSorting == 'affordable'){
-    sortAffordable(currentProducts);
-  }
-  else if (selectedSorting == 'new-release'){
-    sortNewReleased(currentProducts);
-  }
-  else if (selectedSorting == 'price-asc'){
+
+  if (selectedSorting == 'price-asc'){
     sortByPriceAsc(currentProducts);
   }
   else if (selectedSorting == 'price-desc'){
@@ -228,10 +241,10 @@ function compare_date_desc(a,b){
 
 function compare_price_asc(a,b){
   if (a.price < b.price){
-    return 1;
+    return -1;
   }
   else if (a.price > b.price){
-    return -1;
+    return 1;
   }
   else {
     return 0;
@@ -240,10 +253,10 @@ function compare_price_asc(a,b){
 
 function compare_price_desc(a,b){
   if (a.price > b.price){
-    return 1;
+    return -1;
   }
   else if (a.price < b.price){
-    return -1;
+    return 1;
   }
   else {
     return 0;
@@ -259,21 +272,6 @@ function is_newly_released(product){
   }
   else {
     return false;
-  }
-}
-
-function percentile(p){
-  var prod=currentProducts.sort((a,b)=>compare_price_asc(a,b));
-  var i=Math.floor((p/100)*prod.length);
-  return prod[i].price;
-}
-
-function checkboxes(products){
-  if(reasonable_checkbox==='on'){
-    sortAffordable(products);
-  }
-  else if(recent_checkbox==='on'){
-    sortNewReleased(products);
   }
 }
 
@@ -317,6 +315,7 @@ function sortNewReleased(currentProducts){
     }
   }
   sortbrand(newReleasedProducts,selectBrand.value);
+
 }
 
 
@@ -351,7 +350,7 @@ selectBrand.addEventListener('change',event=>{
 
 selectSort.addEventListener('change',event => {
   Selection(currentProducts,event.target.value);
-	
+  
 });
 
 ReasonablePrice.addEventListener('change',()=>{
@@ -363,6 +362,10 @@ ReasonablePrice.addEventListener('change',()=>{
   render(currentProducts,currentPagination);
   
 })
+
+
+
+
 
 document.addEventListener('DOMContentLoaded',()=>
   fetchProducts().then(setCurrentProducts).then(()=>render(currentProducts,currentPagination))
